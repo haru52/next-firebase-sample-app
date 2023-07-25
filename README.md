@@ -2,7 +2,7 @@
 
 ## Overview
 
-Next.js on Firebase sample Web application.
+Next.js on Firebase sample ToDo Web application.
 
 ## Description
 
