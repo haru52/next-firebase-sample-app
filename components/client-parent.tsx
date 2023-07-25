@@ -1,6 +1,5 @@
 'use client';
 
-// import 'bootstrap';
 import { useEffect } from 'react';
 import { useStateContext } from '@/components/state-provider';
 
@@ -12,6 +11,8 @@ export default function ClientParent({
   const { userRepository, currentUser } = useStateContext();
 
   useEffect(() => {
+    import('bootstrap');
+
     if (currentUser === null) return;
 
     (async () => {
