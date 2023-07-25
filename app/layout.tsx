@@ -24,7 +24,12 @@ export default function RootLayout({
         <html lang="en" data-bs-theme="dark">
           <body className={inter.className}>
             <Header />
-            <main className="container">{children}</main>
+            <main className="container">
+              <div className="alert alert-danger" role="alert">
+                This Web app is under construction!
+              </div>
+              {children}
+            </main>
           </body>
         </html>
       </ClientParent>
