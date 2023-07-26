@@ -6,7 +6,6 @@ import {
   collection,
   deleteDoc,
   doc,
-  Firestore,
   getDoc,
   getDocs,
   getFirestore,
@@ -16,10 +15,12 @@ import {
 
 export default class FirestoreTodoRepository implements TodoRepository {
   readonly #db;
+  readonly #userId;
   readonly #todosCollection;
 
   constructor(app: FirebaseApp, userId: string) {
     this.#db = getFirestore(app);
+    this.#userId = userId;
     this.#todosCollection = collection(doc(this.#db, 'users', userId), 'todos');
   }
 
@@ -63,7 +64,7 @@ export default class FirestoreTodoRepository implements TodoRepository {
     return querySnapshot.docs.map((doc) => {
       const docData = doc.data();
       return new Todo(
-        docData.user.id,
+        this.#userId,
         docData.title,
         docData.description,
         docData.completed,
