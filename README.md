@@ -16,21 +16,11 @@ Next.js on Firebase sample ToDo Web application.
 
 ## Contributing
 
-```sh
-vi .env.local
-```
-
-```txt
-NEXT_PUBLIC_FIREBASE_API_KEY=xxx
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=xxx
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=xxx
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=xxx
-NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=xxx
-NEXT_PUBLIC_FIREBASE_APP_ID=xxx
-NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=xxx
-```
+[Contributing Guideline](https://haru52.github.io/next-firebase-sample-app/CONTRIBUTING.html)
 
 ## Documentation
+
+[Documentation | next-firebase-sample-app](https://haru52.com/next-firebase-sample-app/)
 
 ## Author
 <!-- vale Microsoft.Vocab = YES -->
