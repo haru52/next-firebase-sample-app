@@ -1,11 +1,12 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import { KeyedMutator } from 'swr';
 import { useStateContext } from '@/components/state-provider';
 import Todo from '@/lib/entities/todo';
 
 type Props = {
-  mutate: () => void;
+  mutate: KeyedMutator<Todo[]>;
 };
 
 export default function NewTodo(props: Props) {

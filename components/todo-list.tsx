@@ -22,7 +22,7 @@ export default function TodoList(props: Props) {
         <input
           className="form-check-input"
           type="radio"
-          name="flexRadioDefault"
+          name="todos-type"
           id="incomplete-todos"
           value="incomplete-todos"
           checked={props.selectedTodoType === "incomplete-todos"}
@@ -36,7 +36,7 @@ export default function TodoList(props: Props) {
         <input
           className="form-check-input"
           type="radio"
-          name="flexRadioDefault"
+          name="todos-type"
           id="completed-todos"
           value="completed-todos"
           checked={props.selectedTodoType === "completed-todos"}
