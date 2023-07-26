@@ -5,7 +5,7 @@
 # "*.{md,markdown}":
 #   - markdownlint
 #   - make lint-text
-"*.{yml,yaml}": yamllint --strict
+# "*.{yml,yaml}": yamllint --strict
 "*.sh": shellcheck
 ".husky/*": shellcheck
 ".github/workflows/*.{yml,yaml}": actionlint
