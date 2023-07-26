@@ -6,6 +6,14 @@ Next.js on Firebase sample ToDo Web application.
 
 ## Description
 
+### URL
+
+<https://nextjs-firebase-sample-app.firebaseapp.com/>
+
+## License
+
+[WTFPL](LICENSE)
+
 ## Contributing
 
 ```sh
