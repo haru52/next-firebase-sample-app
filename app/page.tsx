@@ -30,10 +30,6 @@ export default function Home() {
     await firebaseAuthAdapter.login();
   };
 
-  const handleLogoutBtnClick = async () => {
-    await firebaseAuthAdapter.logout();
-  };
-
   return (
     <>
       {isAuthenticating ? (
@@ -53,13 +49,6 @@ export default function Home() {
             todos={todos === undefined ? [] : todos}
             mutateTodos={mutate}
           />
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={handleLogoutBtnClick}
-          >
-            Logout
-          </button>
         </>
       )}
     </>

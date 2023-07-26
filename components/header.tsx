@@ -2,7 +2,10 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useStateContext } from './state-provider';
+import { useStateContext } from '@/components/state-provider';
+import FirebaseAuthAdapter from '@/lib/adapters/firebase-auth-adapter';
+
+const firebaseAuthAdapter = new FirebaseAuthAdapter();
 
 export default function Header() {
   const Pathnames = {
@@ -17,11 +20,16 @@ export default function Header() {
   const currentPathname = usePathname();
   const { currentUser } = useStateContext();
 
-  const getNavLinkClassNames = (pathname: Pathnames) => {
+  const getNavLinkClassNames = (pathname?: Pathnames) => {
     const commonClassNames = 'nav-link';
     return pathname === currentPathname
       ? `${commonClassNames} active`
       : commonClassNames;
+  };
+
+  const handleLogoutLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    firebaseAuthAdapter.logout();
   };
 
   return (
@@ -69,14 +77,25 @@ export default function Header() {
               </Link>
             </li>
             {currentUser !== null && (
-              <li className="nav-item">
-                <Link
-                  className={getNavLinkClassNames(Pathnames.MyPage)}
-                  href={Pathnames.MyPage}
-                >
-                  My page
-                </Link>
-              </li>
+              <>
+                <li className="nav-item">
+                  <Link
+                    className={getNavLinkClassNames(Pathnames.MyPage)}
+                    href={Pathnames.MyPage}
+                  >
+                    My page
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <a
+                    href="#"
+                    className={getNavLinkClassNames()}
+                    onClick={handleLogoutLinkClick}
+                  >
+                    Logout
+                  </a>
+                </li>
+              </>
             )}
           </ul>
         </div>
