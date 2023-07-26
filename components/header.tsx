@@ -52,16 +52,6 @@ export default function Header() {
                 Home
               </Link>
             </li>
-            {currentUser !== null && (
-              <li className="nav-item">
-                <Link
-                  className={getNavLinkClassNames(Pathnames.MyPage)}
-                  href={Pathnames.MyPage}
-                >
-                  My page
-                </Link>
-              </li>
-            )}
             <li className="nav-item">
               <Link
                 className={getNavLinkClassNames(Pathnames.TermsOfService)}
@@ -78,6 +68,16 @@ export default function Header() {
                 Privacy Policy
               </Link>
             </li>
+            {currentUser !== null && (
+              <li className="nav-item">
+                <Link
+                  className={getNavLinkClassNames(Pathnames.MyPage)}
+                  href={Pathnames.MyPage}
+                >
+                  My page
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
       </div>
