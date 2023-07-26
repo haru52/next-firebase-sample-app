@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import { KeyedMutator } from 'swr';
-import { TodosType } from '@/app/page';
 import TodoItem from '@/components/todo-item';
+import { TodosType } from '@/lib/todos-types';
 import Todo from '@/lib/entities/todo';
 
 type Props = {

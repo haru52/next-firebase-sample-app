@@ -5,17 +5,11 @@ import useSWR, { Fetcher } from 'swr';
 import NewTodo from '@/components/new-todo';
 import { useStateContext } from '@/components/state-provider';
 import TodoList from '@/components/todo-list';
+import { TodosType } from '@/lib/todos-types';
 import FirebaseAuthAdapter from '@/lib/adapters/firebase-auth-adapter';
 import Todo from '@/lib/entities/todo';
 
 const firebaseAuthAdapter = new FirebaseAuthAdapter();
-
-export const TodosType = {
-  Incomplete: 'incomplete-todos',
-  Completed: 'completed-todos',
-} as const;
-
-export type TodosType = (typeof TodosType)[keyof typeof TodosType];
 
 export default function Home() {
   const [selectedTodoType, setSelectedTodoType] = useState<TodosType>(
