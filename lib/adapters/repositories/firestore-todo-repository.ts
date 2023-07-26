@@ -15,32 +15,23 @@ import {
 } from 'firebase/firestore';
 
 export default class FirestoreTodoRepository implements TodoRepository {
-  readonly #db: Firestore;
-  readonly #userDocRef;
-  static #todosPath = 'todos';
-  static #usersPath = 'users';
+  readonly #db;
+  readonly #todosCollection;
 
   constructor(app: FirebaseApp, userId: string) {
     this.#db = getFirestore(app);
-    this.#userDocRef = doc(
-      this.#db,
-      FirestoreTodoRepository.#usersPath,
-      userId
-    );
+    this.#todosCollection = collection(doc(this.#db, 'users', userId), 'todos');
   }
 
   async save(todo: Todo) {
     const now = new Date();
-    const todoDocRef = await addDoc(
-      collection(this.#userDocRef, FirestoreTodoRepository.#todosPath),
-      {
-        title: todo.title,
-        description: todo.description,
-        completed: todo.completed,
-        created_at: now,
-        updated_at: now,
-      }
-    );
+    const todoDocRef = await addDoc(this.#todosCollection, {
+      title: todo.title,
+      description: todo.description,
+      completed: todo.completed,
+      created_at: now,
+      updated_at: now,
+    });
     return new Todo(
       todo.userId,
       todo.title,
@@ -48,19 +39,12 @@ export default class FirestoreTodoRepository implements TodoRepository {
       todo.completed,
       todoDocRef.id,
       now,
-      now
+      now,
     );
   }
 
   async findOne(id: string) {
-    const docData = (
-      await getDoc(
-        doc(
-          collection(this.#userDocRef, FirestoreTodoRepository.#todosPath),
-          id
-        )
-      )
-    ).data();
+    const docData = (await getDoc(doc(this.#todosCollection, id))).data();
     return docData === undefined
       ? null
       : new Todo(
@@ -70,42 +54,34 @@ export default class FirestoreTodoRepository implements TodoRepository {
           docData.completed,
           id,
           docData.created_at.toDate(),
-          docData.updated_at.toDate()
+          docData.updated_at.toDate(),
         );
   }
 
   async findAll() {
-    const querySnapshot = await getDocs(
-      collection(this.#userDocRef, FirestoreTodoRepository.#todosPath)
-    );
+    const querySnapshot = await getDocs(this.#todosCollection);
     return querySnapshot.docs.map((doc) => {
       const docData = doc.data();
       return new Todo(
-        this.#userDocRef.id,
+        docData.user.id,
         docData.title,
         docData.description,
         docData.completed,
         doc.id,
         docData.created_at.toDate(),
-        docData.updated_at.toDate()
+        docData.updated_at.toDate(),
       );
     });
   }
 
   async update(todo: Todo) {
-    if (todo.id === undefined) throw new Error('todo.id is undefined');
-
     const updatedAt = new Date();
-    await updateDoc(
-      doc(this.#db, FirestoreTodoRepository.#todosPath, todo.id),
-      {
-        user: this.#userDocRef,
-        title: todo.title,
-        description: todo.description,
-        completed: todo.completed,
-        updated_at: updatedAt,
-      }
-    );
+    await updateDoc(doc(this.#todosCollection, todo.id), {
+      title: todo.title,
+      description: todo.description,
+      completed: todo.completed,
+      updated_at: updatedAt,
+    });
     return new Todo(
       todo.userId,
       todo.title,
@@ -113,20 +89,16 @@ export default class FirestoreTodoRepository implements TodoRepository {
       todo.completed,
       todo.id,
       todo.createdAt,
-      updatedAt
+      updatedAt,
     );
   }
 
   async delete(id: string) {
-    await deleteDoc(
-      doc(collection(this.#userDocRef, FirestoreTodoRepository.#todosPath), id)
-    );
+    await deleteDoc(doc(this.#todosCollection, id));
   }
 
   async deleteAll() {
-    const querySnapshot = await getDocs(
-      collection(this.#userDocRef, FirestoreTodoRepository.#todosPath)
-    );
+    const querySnapshot = await getDocs(this.#todosCollection);
     const batch = writeBatch(this.#db);
     querySnapshot.docs.forEach((doc) => {
       batch.delete(doc.ref);
