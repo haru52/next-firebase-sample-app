@@ -26,3 +26,5 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_NEXTJS_FIREBASE_SAMPLE_APP }}'
           channelId: live
           projectId: nextjs-firebase-sample-app
+        env:
+          FIREBASE_CLI_EXPERIMENTS: webframeworks
