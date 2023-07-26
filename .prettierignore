@@ -11,3 +11,6 @@
 
 # Next.js
 /.next/
+
+# Firebase
+/.firebase/
