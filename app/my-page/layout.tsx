@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
+import MetaTitleGenerator from '@/lib/usecases/meta-title-generator';
 
 export const metadata: Metadata = {
-  title: 'My Page - Next.js Firebase App',
+  title: MetaTitleGenerator.run('My Page'),
 };
 
 export default function MyPageLayout({

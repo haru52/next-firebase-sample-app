@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
+import MetaTitleGenerator from '@/lib/usecases/meta-title-generator';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy - Next.js Firebase App',
+  title: MetaTitleGenerator.run('Privacy Policy'),
 };
 
 export default function PrivacyPolicyLayout({

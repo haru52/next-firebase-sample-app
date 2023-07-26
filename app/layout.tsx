@@ -5,11 +5,12 @@ import { Inter } from 'next/font/google';
 import ClientParent from '@/components/client-parent';
 import Header from '@/components/header';
 import StateProvider from '@/components/state-provider';
+import MetaTitleGenerator from '@/lib/usecases/meta-title-generator';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Next.js Firebase App',
+  title: MetaTitleGenerator.run(),
   description: 'Next.js on Firebase sample Web application.',
 };
 
