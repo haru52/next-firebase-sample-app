@@ -1,25 +1,25 @@
 'use client';
 
-import { useState } from 'react';
-import { KeyedMutator } from 'swr';
+import { useRef, useState } from 'react';
 import { useStateContext } from '@/components/state-provider';
 import Todo from '@/lib/entities/todo';
 
 type Props = {
-  mutate: KeyedMutator<Todo[]>;
+  mutate: () => void;
 };
 
 export default function NewTodo(props: Props) {
   const { todoRepository, currentUser } = useStateContext();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const titleInputEl = useRef<HTMLInputElement>(null);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.currentTarget.value);
   };
 
   const handleDescriptionChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLTextAreaElement>,
   ) => {
     setDescription(e.currentTarget.value);
   };
@@ -30,11 +30,16 @@ export default function NewTodo(props: Props) {
     const todo = new Todo(currentUser.id, title, description);
     setTitle('');
     setDescription('');
-    if (todoRepository !== undefined) {
-      todoRepository.save(todo);
-      props.mutate();
-    }
     e.preventDefault();
+    if (todoRepository === undefined) return;
+
+    (async () => {
+      await todoRepository.save(todo);
+      props.mutate();
+    })();
+    if (titleInputEl.current === null) return;
+
+    titleInputEl.current.focus();
   };
 
   return (
@@ -49,6 +54,7 @@ export default function NewTodo(props: Props) {
           id="title"
           value={title}
           onChange={handleTitleChange}
+          ref={titleInputEl}
           required
           autoFocus
         />

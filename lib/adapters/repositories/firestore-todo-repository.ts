@@ -9,7 +9,9 @@ import {
   getDoc,
   getDocs,
   getFirestore,
+  query,
   updateDoc,
+  where,
   writeBatch,
 } from 'firebase/firestore';
 
@@ -59,9 +61,11 @@ export default class FirestoreTodoRepository implements TodoRepository {
         );
   }
 
-  async findAll() {
-    const querySnapshot = await getDocs(this.#todosCollection);
-    return querySnapshot.docs.map((doc) => {
+  async findAll(completed = false) {
+    const querySnapshot = await getDocs(
+      query(this.#todosCollection, where('completed', '==', completed)),
+    );
+    const todos = querySnapshot.docs.map((doc) => {
       const docData = doc.data();
       return new Todo(
         this.#userId,
@@ -72,6 +76,12 @@ export default class FirestoreTodoRepository implements TodoRepository {
         docData.created_at.toDate(),
         docData.updated_at.toDate(),
       );
+    });
+    return todos.sort((a, b) => {
+      if (a.updatedAt === undefined && b.updatedAt === undefined) return 0;
+      if (a.updatedAt === undefined) return 1;
+      if (b.updatedAt === undefined) return -1;
+      return b.updatedAt.getTime() - a.updatedAt.getTime();
     });
   }
 

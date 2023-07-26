@@ -17,17 +17,26 @@ export default function TodoItem(props: Props) {
       throw new Error('todoRepository is undefined');
 
     props.todo.completed = e.target.checked;
-    todoRepository.update(props.todo);
-    props.mutateTodos();
+    (async () => {
+      await todoRepository.update(props.todo);
+      props.mutateTodos();
+    })();
   };
 
   const handleDeleteBtnClick = () => {
     if (todoRepository === undefined)
       throw new Error('todoRepository is undefined');
-    if (props.todo.id === undefined) throw new Error('todo.id is undefined');
 
-    todoRepository.delete(props.todo.id);
-    props.mutateTodos();
+    (async () => {
+      if (props.todo.id === undefined) throw new Error('todo.id is undefined');
+
+      await todoRepository.delete(props.todo.id);
+      props.mutateTodos();
+    })();
+  };
+
+  const textToHtmlText = (text: string) => {
+    return text.replace(/\n/g, '<br />');
   };
 
   return (
@@ -54,7 +63,12 @@ export default function TodoItem(props: Props) {
           </button>
         </h2>
         <div id={props.todo.id} className="accordion-collapse collapse">
-          <div className="accordion-body">{props.todo.description}</div>
+          <div
+            className="accordion-body"
+            dangerouslySetInnerHTML={{
+              __html: textToHtmlText(props.todo.description),
+            }}
+          ></div>
         </div>
       </td>
       <td>

@@ -1,7 +1,7 @@
 export default function PrivacyPolicy() {
   return (
     <>
-      <h1>Privacy Policy</h1>
+      <h1>Privacy policy</h1>
       <p>July 25th, 2023</p>
       <ol>
         <li>

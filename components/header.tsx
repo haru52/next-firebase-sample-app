@@ -73,7 +73,7 @@ export default function Header() {
                 className={getNavLinkClassNames(Pathnames.PrivacyPolicy)}
                 href={Pathnames.PrivacyPolicy}
               >
-                Privacy Policy
+                Privacy policy
               </Link>
             </li>
             {currentUser !== null && (

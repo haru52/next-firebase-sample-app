@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import useSWR, { Fetcher } from 'swr';
 import NewTodo from '@/components/new-todo';
 import { useStateContext } from '@/components/state-provider';
@@ -10,19 +10,32 @@ import Todo from '@/lib/entities/todo';
 
 const firebaseAuthAdapter = new FirebaseAuthAdapter();
 
+export const TodosType = {
+  Incomplete: 'incomplete-todos',
+  Completed: 'completed-todos',
+} as const;
+
+export type TodosType = (typeof TodosType)[keyof typeof TodosType];
+
 export default function Home() {
+  const [selectedTodoType, setSelectedTodoType] = useState<TodosType>(
+    TodosType.Incomplete,
+  );
   const { todoRepository, currentUser, isAuthenticating } = useStateContext();
 
-  const fetcher: Fetcher<Todo[], string> = async () => {
+  const fetcher: Fetcher<Todo[], TodosType> = async (key: TodosType) => {
     if (todoRepository === undefined) return [];
 
-    return await todoRepository.findAll();
+    return await todoRepository.findAll(key === TodosType.Completed);
   };
 
-  const { data: todos, mutate } = useSWR(`todos`, fetcher);
+  const { data: todos, mutate } = useSWR(selectedTodoType, fetcher, {
+    revalidateOnFocus: false,
+  });
 
   useEffect(() => {
     if (currentUser === null) return;
+
     mutate();
   }, [currentUser, mutate]);
 
@@ -48,6 +61,8 @@ export default function Home() {
           <TodoList
             todos={todos === undefined ? [] : todos}
             mutateTodos={mutate}
+            selectedTodoType={selectedTodoType}
+            setSelectedTodoType={setSelectedTodoType}
           />
         </>
       )}

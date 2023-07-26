@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import MetaTitleGenerator from '@/lib/usecases/meta-title-generator';
 
 export const metadata: Metadata = {
-  title: MetaTitleGenerator.run('Privacy Policy'),
+  title: MetaTitleGenerator.run('Privacy policy'),
 };
 
 export default function PrivacyPolicyLayout({
