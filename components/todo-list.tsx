@@ -1,3 +1,4 @@
+import '../app/stylesheets/todo-list.css';
 import { Dispatch, SetStateAction } from 'react';
 import { KeyedMutator } from 'swr';
 import TodoItem from '@/components/todo-item';
@@ -18,7 +19,7 @@ export default function TodoList(props: Props) {
   };
 
   return (
-    <>
+    <div id="todo-list">
       <div className="form-check">
         <input
           className="form-check-input"
@@ -67,6 +68,6 @@ export default function TodoList(props: Props) {
           ))}
         </tbody>
       </table>
-    </>
+    </div>
   );
 }
