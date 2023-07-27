@@ -76,6 +76,16 @@ export default function Header() {
                 Privacy policy
               </Link>
             </li>
+            <li className="nav-item">
+              <a
+                className={getNavLinkClassNames()}
+                href="https://github.com/haru52/next-firebase-sample-app"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Source code
+              </a>
+            </li>
             {currentUser !== null && (
               <>
                 <li className="nav-item">
