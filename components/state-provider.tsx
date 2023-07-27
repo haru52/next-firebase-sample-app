@@ -50,7 +50,7 @@ export default function StateProvider({ children }: { children: JSX.Element }) {
       const currentUser = new User(
         firebaseUser.uid,
         firebaseUser.email,
-        firebaseUser.displayName
+        firebaseUser.displayName,
       );
       setCurrentUser(currentUser);
       setIsAuthenticating(false);

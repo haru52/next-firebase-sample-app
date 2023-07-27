@@ -43,13 +43,13 @@ export default class FirestoreUserRepository implements UserRepository {
           docData.email,
           docData.name,
           docData.createdAt.toDate(),
-          docData.updatedAt.toDate()
+          docData.updatedAt.toDate(),
         );
   }
 
   async findAll() {
     const querySnapshot = await getDocs(
-      collection(this.#db, FirestoreUserRepository.#usersPath)
+      collection(this.#db, FirestoreUserRepository.#usersPath),
     );
     return querySnapshot.docs.map((doc) => {
       const docData = doc.data();
@@ -58,7 +58,7 @@ export default class FirestoreUserRepository implements UserRepository {
         docData.email,
         docData.name,
         docData.createdAt.toDate(),
-        docData.updatedAt.toDate()
+        docData.updatedAt.toDate(),
       );
     });
   }

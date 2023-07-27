@@ -6,6 +6,6 @@ export default class Todo {
     public completed = false,
     readonly id?: string,
     readonly createdAt?: Date,
-    readonly updatedAt?: Date
+    readonly updatedAt?: Date,
   ) {}
 }

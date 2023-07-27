@@ -4,6 +4,6 @@ export default class User {
     readonly email: string,
     readonly name: string,
     readonly createdAt?: Date,
-    readonly updatedAt?: Date
+    readonly updatedAt?: Date,
   ) {}
 }
