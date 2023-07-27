@@ -6,7 +6,7 @@ import { useStateContext } from '@/components/state-provider';
 import Todo from '@/lib/entities/todo';
 
 type Props = {
-  mutate: KeyedMutator<Todo[]>;
+  mutateIncompleteTodos: KeyedMutator<Todo[]>;
 };
 
 export default function NewTodo(props: Props) {
@@ -36,7 +36,7 @@ export default function NewTodo(props: Props) {
 
     (async () => {
       await todoRepository.save(todo);
-      props.mutate();
+      props.mutateIncompleteTodos();
     })();
     if (titleInputEl.current === null) return;
 

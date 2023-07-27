@@ -3,10 +3,13 @@
 import { KeyedMutator } from 'swr';
 import { useStateContext } from '@/components/state-provider';
 import Todo from '@/lib/entities/todo';
+import { ToShowTodoType } from '@/lib/etc/to-show-todo-type';
 
 type Props = {
   todo: Todo;
-  mutateTodos: KeyedMutator<Todo[]>;
+  mutateIncompleteTodos: KeyedMutator<Todo[]>;
+  mutateCompletedTodos: KeyedMutator<Todo[]>;
+  toShowTodoType: ToShowTodoType;
 };
 
 export default function TodoItem(props: Props) {
@@ -19,7 +22,8 @@ export default function TodoItem(props: Props) {
     props.todo.completed = e.target.checked;
     (async () => {
       await todoRepository.update(props.todo);
-      props.mutateTodos();
+      props.mutateIncompleteTodos();
+      props.mutateCompletedTodos();
     })();
   };
 
@@ -31,7 +35,9 @@ export default function TodoItem(props: Props) {
       if (props.todo.id === undefined) throw new Error('todo.id is undefined');
 
       await todoRepository.delete(props.todo.id);
-      props.mutateTodos();
+      props.toShowTodoType === ToShowTodoType.Completed
+        ? props.mutateCompletedTodos()
+        : props.mutateIncompleteTodos();
     })();
   };
 

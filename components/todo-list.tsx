@@ -1,19 +1,20 @@
 import { Dispatch, SetStateAction } from 'react';
 import { KeyedMutator } from 'swr';
 import TodoItem from '@/components/todo-item';
-import { TodosType } from '@/lib/todos-types';
 import Todo from '@/lib/entities/todo';
+import { ToShowTodoType } from '@/lib/etc/to-show-todo-type';
 
 type Props = {
   todos: Todo[];
-  mutateTodos: KeyedMutator<Todo[]>;
-  selectedTodoType: string;
-  setSelectedTodoType: Dispatch<SetStateAction<TodosType>>;
+  mutateIncompleteTodos: KeyedMutator<Todo[]>;
+  mutateCompletedTodos: KeyedMutator<Todo[]>;
+  toShowTodoType: ToShowTodoType;
+  setToShowTodoType: Dispatch<SetStateAction<ToShowTodoType>>;
 };
 
 export default function TodoList(props: Props) {
   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    props.setSelectedTodoType(event.target.value as TodosType);
+    props.setToShowTodoType(event.target.value as ToShowTodoType);
   };
 
   return (
@@ -23,12 +24,12 @@ export default function TodoList(props: Props) {
           className="form-check-input"
           type="radio"
           name="todos-type"
-          id="incomplete-todos"
-          value="incomplete-todos"
-          checked={props.selectedTodoType === "incomplete-todos"}
+          id={ToShowTodoType.Incomplete}
+          value={ToShowTodoType.Incomplete}
+          checked={props.toShowTodoType === ToShowTodoType.Incomplete}
           onChange={handleOptionChange}
         />
-        <label className="form-check-label" htmlFor="incomplete-todos">
+        <label className="form-check-label" htmlFor={ToShowTodoType.Incomplete}>
           Incomplete ToDos
         </label>
       </div>
@@ -37,12 +38,12 @@ export default function TodoList(props: Props) {
           className="form-check-input"
           type="radio"
           name="todos-type"
-          id="completed-todos"
-          value="completed-todos"
-          checked={props.selectedTodoType === "completed-todos"}
+          id={ToShowTodoType.Completed}
+          value={ToShowTodoType.Completed}
+          checked={props.toShowTodoType === ToShowTodoType.Completed}
           onChange={handleOptionChange}
         />
-        <label className="form-check-label" htmlFor="completed-todos">
+        <label className="form-check-label" htmlFor={ToShowTodoType.Completed}>
           Completed ToDos
         </label>
       </div>
@@ -59,7 +60,9 @@ export default function TodoList(props: Props) {
             <TodoItem
               key={todo.id}
               todo={todo}
-              mutateTodos={props.mutateTodos}
+              mutateIncompleteTodos={props.mutateIncompleteTodos}
+              mutateCompletedTodos={props.mutateCompletedTodos}
+              toShowTodoType={props.toShowTodoType}
             />
           ))}
         </tbody>

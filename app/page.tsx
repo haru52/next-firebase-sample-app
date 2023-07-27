@@ -5,33 +5,63 @@ import useSWR, { Fetcher } from 'swr';
 import NewTodo from '@/components/new-todo';
 import { useStateContext } from '@/components/state-provider';
 import TodoList from '@/components/todo-list';
-import { TodosType } from '@/lib/todos-types';
+import { ToShowTodoType } from '@/lib/etc/to-show-todo-type';
 import FirebaseAuthAdapter from '@/lib/adapters/firebase-auth-adapter';
 import Todo from '@/lib/entities/todo';
 
 const firebaseAuthAdapter = new FirebaseAuthAdapter();
 
 export default function Home() {
-  const [selectedTodoType, setSelectedTodoType] = useState<TodosType>(
-    TodosType.Incomplete,
+  const [toShowTodoType, setToShowTodoType] = useState<ToShowTodoType>(
+    ToShowTodoType.Incomplete,
   );
   const { todoRepository, currentUser, isAuthenticating } = useStateContext();
 
-  const fetcher: Fetcher<Todo[], TodosType> = async (key: TodosType) => {
+  const fetcher: Fetcher<Todo[], ToShowTodoType> = async (
+    key: ToShowTodoType,
+  ) => {
     if (todoRepository === undefined) return [];
 
-    return await todoRepository.findAll(key === TodosType.Completed);
+    return await todoRepository.findAll(key === ToShowTodoType.Completed);
   };
 
-  const { data: todos, mutate } = useSWR(selectedTodoType, fetcher, {
-    revalidateOnFocus: false,
-  });
+  const { data: incompleteTodos, mutate: mutateIncompleteTodos } = useSWR(
+    ToShowTodoType.Incomplete,
+    fetcher,
+    {
+      revalidateOnFocus: false,
+    },
+  );
+
+  const { data: completedTodos, mutate: mutateCompletedTodos } = useSWR(
+    ToShowTodoType.Completed,
+    fetcher,
+    {
+      revalidateOnFocus: false,
+    },
+  );
+
+  const [todos, setTodos] = useState<Todo[]>([]);
+
+  useEffect(() => {
+    if (
+      toShowTodoType === ToShowTodoType.Completed &&
+      completedTodos !== undefined
+    ) {
+      setTodos(completedTodos);
+      return;
+    }
+
+    if (incompleteTodos === undefined) return;
+    setTodos(incompleteTodos);
+  }, [toShowTodoType, completedTodos, incompleteTodos]);
 
   useEffect(() => {
     if (currentUser === null) return;
 
-    mutate();
-  }, [currentUser, mutate]);
+    mutateIncompleteTodos();
+    mutateCompletedTodos();
+  }, [currentUser, mutateIncompleteTodos, mutateCompletedTodos]);
 
   const handleLoginBtnClick = async () => {
     await firebaseAuthAdapter.login();
@@ -51,12 +81,13 @@ export default function Home() {
         </button>
       ) : (
         <>
-          <NewTodo mutate={mutate} />
+          <NewTodo mutateIncompleteTodos={mutateIncompleteTodos} />
           <TodoList
             todos={todos === undefined ? [] : todos}
-            mutateTodos={mutate}
-            selectedTodoType={selectedTodoType}
-            setSelectedTodoType={setSelectedTodoType}
+            mutateIncompleteTodos={mutateIncompleteTodos}
+            mutateCompletedTodos={mutateCompletedTodos}
+            toShowTodoType={toShowTodoType}
+            setToShowTodoType={setToShowTodoType}
           />
         </>
       )}
