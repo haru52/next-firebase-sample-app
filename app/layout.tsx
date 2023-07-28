@@ -2,7 +2,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import Alert from '@/components/alert';
 import ClientParent from '@/components/client-parent';
 import Header from '@/components/header';
 import StateProvider from '@/components/state-provider';
@@ -26,10 +25,7 @@ export default function RootLayout({
         <html lang="en" data-bs-theme="dark">
           <body className={inter.className}>
             <Header />
-            <main className="container">
-              <Alert />
-              {children}
-            </main>
+            <main className="container">{children}</main>
           </body>
         </html>
       </ClientParent>
