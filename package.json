@@ -1,7 +1,12 @@
 {
   "name": "next-firebase-sample-app",
   "version": "0.1.0",
+  "description": "Next.js on Firebase sample ToDo Web application.",
   "private": true,
+  "engines": {
+    "node": "^18.17.0",
+    "npm": "^9.8.1"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
