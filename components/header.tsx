@@ -102,7 +102,7 @@ export default function Header() {
                     className={getNavLinkClassNames()}
                     onClick={handleLogoutLinkClick}
                   >
-                    Logout
+                    Log out
                   </a>
                 </li>
               </>
