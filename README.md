@@ -8,7 +8,7 @@ Next.js on Firebase sample ToDo Web application.
 
 ### URL
 
-<https://nextjs-firebase-sample-app.firebaseapp.com/>
+<https://next-firebase-sample-app.haru52.com/>
 
 ## License
 
