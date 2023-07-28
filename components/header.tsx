@@ -1,5 +1,7 @@
 'use client';
 
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useStateContext } from '@/components/state-provider';
@@ -83,7 +85,7 @@ export default function Header() {
                 target="_blank"
                 rel="noreferrer"
               >
-                Source code
+                <FontAwesomeIcon icon={faGithub} /> Source
               </a>
             </li>
             {currentUser !== null && (

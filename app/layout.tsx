@@ -1,5 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import './globals.css';
+import { config } from '@fortawesome/fontawesome-svg-core';
+import '@fortawesome/fontawesome-svg-core/styles.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import ClientParent from '@/components/client-parent';
@@ -13,6 +15,8 @@ export const metadata: Metadata = {
   title: MetaTitleGenerator.run(),
   description: 'Next.js on Firebase sample Web application.',
 };
+
+config.autoAddCss = false;
 
 export default function RootLayout({
   children,
