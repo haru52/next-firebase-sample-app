@@ -26,8 +26,8 @@ export default class FirestoreUserRepository implements UserRepository {
     await setDoc(doc(this.#db, FirestoreUserRepository.#usersPath, user.id), {
       email,
       name,
-      createdAt: now,
-      updatedAt: now,
+      created_at: now,
+      updated_at: now,
     });
     return new User(user.id, email, name, now, now);
   }
@@ -42,8 +42,8 @@ export default class FirestoreUserRepository implements UserRepository {
           id,
           docData.email,
           docData.name,
-          docData.createdAt.toDate(),
-          docData.updatedAt.toDate(),
+          docData.created_at.toDate(),
+          docData.updated_at.toDate(),
         );
   }
 
@@ -57,8 +57,8 @@ export default class FirestoreUserRepository implements UserRepository {
         doc.id,
         docData.email,
         docData.name,
-        docData.createdAt.toDate(),
-        docData.updatedAt.toDate(),
+        docData.created_at.toDate(),
+        docData.updated_at.toDate(),
       );
     });
   }
